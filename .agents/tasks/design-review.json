@@ -1,0 +1,20 @@
+{
+  "verdict": "CHANGES_REQUESTED",
+  "counts": {"HIGH": 1, "MEDIUM": 6, "NIT": 6},
+  "findings": [
+    {"id": 1, "severity": "HIGH", "where": "§14 step12(b), §4 acceptance 2c", "title": "孤儿引文'改一字'检测对6–15字片段失效（8-gram预筛+LCS≥8）", "fix": "改为3-gram预筛+等长窗口编辑距离 near_match<=max(1,len(f)//8) 且>0 → FAIL；经文(c)同样处理；len≥20保留LCS规则；新增6/10/15字改一字用例"},
+    {"id": 2, "severity": "MEDIUM", "where": "§13.5, §13.6, §14 step12", "title": "逐字校验绕过：q.ext白名单含ccifellowship.org；blockquote全部免扫；.cq可写死文字", "fix": "ext禁止ccifellowship.org；blockquote仅允许空的blockquote.bible[data-ref]；.cq[data-src]须为空；孤儿扫描只排除q[data-cite]/q[data-bible]/script/style/title"},
+    {"id": 3, "severity": "MEDIUM", "where": "§6, §8, §13.5, §23#10", "title": "lf:* 的 forms 数据结构、render输出、与 intros.forms 同名冲突未定义", "fix": "固定 forms:{\"1\":{title,paras,refs,url}}；paras=ccilib.paras(content)；render加入forms；text(lf:n)=join(paras)；intros.forms不动"},
+    {"id": 4, "severity": "MEDIUM", "where": "§16, §18, A1", "title": "livecheck只读本地HTML且只覆盖少数条目，未覆盖CITED全部键", "fix": "新增livecheck_cited.py：按CITED逐键联网抓取url并逐字比对；False→1，网络不可用→3；部署前须为0"},
+    {"id": 5, "severity": "MEDIUM", "where": "§13.1, §13.10, §10.4", "title": "布局自检：抽屉/aurora误报OVERFLOW；.diagram overflow-x:auto可掩盖溢出；SVG内文字重叠无检测", "fix": "关闭抽屉用visibility:hidden+inert并排除；hidden+data-clip-ok祖先终止OVERFLOW；verify限制overflow auto/scroll仅用于白名单类；新增SVGOVERLAP"},
+    {"id": 6, "severity": "MEDIUM", "where": "§18, §20 step5, acceptance 16", "title": "$pw/$email赋值方式未定义，独立进程下扫描失效；提交前扫描看不到暂存区；邮箱无自动检查", "fix": "单条命令内赋值-使用-Remove-Variable；提交前对git diff --cached与工作树文件检查pw与email，均须False；推送后git log -p同时查pw/email/令牌模式"},
+    {"id": 7, "severity": "MEDIUM", "where": "§8.1 BIBLE_REFS, §14 step9/12", "title": "BIBLE_REFS未列全，未收录经节的裸引号不会被检测；非连续引用抓取未定义", "fix": "在§8.1给出完整清单（含创18:14、创22:8、圣约公式各节、诗25:10/14等）；每项为单一连续范围，格式正则校验"},
+    {"id": 8, "severity": "NIT", "where": "§11 vs §12", "title": "creed:* 键未纳入CITED分组与信条页渲染", "fix": "CITED允许creed:*；confessions.html加三大信经组，渲染标题+CCI链接+背诵页链接；禁止.cq使用creed键"},
+    {"id": 9, "severity": "NIT", "where": "§13.5", "title": "q[data-cite]空白处理未定义", "fix": "删除\\s*\\n\\s*源码换行，其余空白原样比对；跨段用……"},
+    {"id": 10, "severity": "NIT", "where": "§9.1", "title": "圣诗19/9关联说明可能被读成诗歌内容", "fix": "圣诗两项改为'礼拜位置：…'的礼拜功能说明"},
+    {"id": 11, "severity": "NIT", "where": "§9 结构表", "title": "主日27缺少集中呈现", "fix": "core后加#ld27小节，放hc:72/73/74三卡片与问答流程图；要点中改为链接+短引"},
+    {"id": 12, "severity": "NIT", "where": "NFR-3", "title": "对比度≥4.5:1无校验手段", "fix": "自检加lowContrast计数，layoutcheck明暗各跑一次断言为0"},
+    {"id": 13, "severity": "NIT", "where": "§21", "title": "BC34篇幅写约1200字，实测约827字", "fix": "改为约830字"}
+  ],
+  "reviewDoc": "e:\\Je\\KiroCC_Study_20261014\\genesis17-covenant-love-hc-ld27-sermon-20261017-v1/.agents/tasks/design-review.md"
+}
